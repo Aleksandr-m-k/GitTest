@@ -1,6 +1,9 @@
 package ru.kata.spring.boot_security.demo.model;
 
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "Users")
@@ -12,8 +15,14 @@ public class User {
     private String surname;
     private int age;
 
+    private String password;
+
     public User() {
     }
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "roles_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    List<Role> roles;
 
     public int getId() {
         return id;
@@ -47,6 +56,14 @@ public class User {
         this.age = age;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -54,7 +71,9 @@ public class User {
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", age=" + age +
+                ", password='" + password + '\'' +
                 '}';
     }
+
 }
 

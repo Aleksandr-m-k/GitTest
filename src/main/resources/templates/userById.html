@@ -10,6 +10,7 @@
 <p th:text="${userById.getName()}"></p>
 <p th:text="${userById.getSurname()}"></p>
 <p th:text="${userById.getAge()}"></p>
+<p th:text="${userById.getPassword()}"></p>
 
 
 <form th:method="GET" th:action="@{/users/{id}/edit(id=${userById.getId()})}">
