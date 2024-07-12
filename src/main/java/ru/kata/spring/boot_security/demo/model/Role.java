@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table (name="Roles")
+@Table (name="Role")
 public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,9 +25,10 @@ public class Role implements GrantedAuthority {
     }
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "roles_id"))
-    List<User> users;
+
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "role_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    List<User> user;
 
 
     public int getId() {

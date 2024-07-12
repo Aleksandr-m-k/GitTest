@@ -20,9 +20,11 @@ public class User {
     public User() {
     }
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "roles_id"),
+
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    List<Role> roles;
+    List<Role> role;
+
 
     public int getId() {
         return id;
