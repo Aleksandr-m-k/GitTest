@@ -3,21 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>ВСЕ ЛЮДИ</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
 </head>
 <body>
 СПИСОК ВСЕХ ПОЛЬЗОВАТЕЛЕЙ
 <p></p>
-<div th:each="user:${users}">
-    <a th:href="@{/users/{id}(id=${user.getId()})}" th:text="${user.getId()}">user</a>
-    <a th:text="${user.getName()}">user</a>
-    <a th:text="${user.getSurname()}">user</a>
-    <a th:text="${user.getAge()}">user</a>
-    <a th:text="${user.getPassword()}">user</a>
-
-</div>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Имя</th>
+        <th>Фамилия</th>
+        <th>Возраст</th>
+        <th>Пароль</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user:${users}">
+        <td><a th:href="@{/admin/{id}(id=${user.getId()})}" th:text="${user.getId()}">user</a></td>
+        <td><a th:text="${user.getName()}">user</a></td>
+        <td><a th:text="${user.getSurname()}">user</a></td>
+        <td><a th:text="${user.getAge()}">user</a></td>
+        <td><a th:text="${user.getPassword()}">user</a></td>
+    </tr>
+    </tbody>
+</table>
 <br/>
 <hr/>
 
-<a href="users/new">Создать нового пользователя</a>
+<a href="admin/new">Создать нового пользователя</a>
 </body>
 </html>
+

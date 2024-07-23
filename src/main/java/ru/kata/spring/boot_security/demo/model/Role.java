@@ -7,9 +7,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table (name="Role")
+@Table
 public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,10 +26,9 @@ public class Role implements GrantedAuthority {
     }
 
     @ManyToMany(cascade = CascadeType.ALL)
-
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    List<User> user;
+    Set<User> users;
 
 
     public int getId() {
@@ -57,6 +57,6 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        return null;
+        return role;
     }
 }

@@ -13,10 +13,10 @@
 <p th:text="${userById.getPassword()}"></p>
 
 
-<form th:method="GET" th:action="@{/users/{id}/edit(id=${userById.getId()})}">
+<form th:method="GET" th:action="@{/admin/{id}/edit(id=${userById.getId()})}">
     <input type="submit" value="Изменить пользователя">
 </form>
-<form th:method="POST" th:action="@{/users/{id}/delete(id=${userById.getId()})}">
+<form th:method="POST" th:action="@{/admin/{id}/delete(id=${userById.getId()})}">
     <br/>
     <input type="submit" value="Удалить пользователя!"/>
 </form>
