@@ -19,6 +19,9 @@
 <form th:method="POST" th:action="@{/admin/{id}/delete(id=${userById.getId()})}">
     <br/>
     <input type="submit" value="Удалить пользователя!"/>
+    <br/>
+    <br/>
+    <a href="/logout"> Выйти из аккаунта</a>
 </form>
 </body>
 </html>

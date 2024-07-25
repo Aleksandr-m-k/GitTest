@@ -14,7 +14,7 @@ public class UserRepositoryTestRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        User user = userRepository.findByUsername("1");
+        User user = userRepository.findByUsername("Александр");
         System.out.println("User found: " + user +"______________");
     }
 }

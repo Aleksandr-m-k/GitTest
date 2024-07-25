@@ -2,6 +2,7 @@ package ru.kata.spring.boot_security.demo.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
 import javax.persistence.Access;
@@ -18,6 +20,8 @@ import javax.persistence.PersistenceContext;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Repository
@@ -26,16 +30,26 @@ public class UserDaoImpl implements UserDao{
 
     @PersistenceContext
     private EntityManager entityManager;
-    @Autowired
+
     private UserRepository userRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    private final AuthenticationProvider authenticationProvider;
+    private RoleRepository roleRepository;
 
     @Autowired
-    public UserDaoImpl(AuthenticationProvider authenticationProvider) {
-        this.authenticationProvider = authenticationProvider;
+    private  DaoAuthenticationProvider authenticationProvider;
+
+    @Autowired
+    public UserDaoImpl(UserRepository userRepository, RoleRepository roleRepository) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+//    public UserDaoImpl(DaoAuthenticationProvider authenticationProvider) {
+//        this.authenticationProvider = authenticationProvider;
+//    }
+
     @Override
     public List<User> getAllUsers() {
         return entityManager.createQuery("from User", User.class).getResultList();
@@ -55,7 +69,10 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public void saveUser(User user) {
-
+//        Set<Role> roles = user.getRoles().stream()
+//                .map(role -> roleRepository.findById(role.getId())
+//                        .orElseThrow(() -> new IllegalArgumentException("Role not found: " + role.getId())))
+//                .collect(Collectors.toSet());
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         entityManager.persist(user);

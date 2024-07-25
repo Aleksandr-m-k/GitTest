@@ -23,13 +23,13 @@ public class SuccessUserHandler implements AuthenticationSuccessHandler {
 
         if (roles.contains("ROLE_USER")) {
             logger.info("Redirecting to /user");
-            httpServletResponse.sendRedirect("/user");
+            httpServletResponse.sendRedirect("/user/");
         } else if (roles.contains("ROLE_ADMIN")) {
             logger.info("Redirecting to /admin");
-            httpServletResponse.sendRedirect("/admin");
+            httpServletResponse.sendRedirect("/admin/");
         } else {
             logger.warning("No matching role found, redirecting to /login");
-            httpServletResponse.sendRedirect("/login");
+            httpServletResponse.sendRedirect("/");
         }
     }
 }

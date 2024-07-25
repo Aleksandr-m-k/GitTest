@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
+import java.security.Principal;
+
 
 @Controller
 @RequestMapping("/admin")
@@ -24,9 +26,13 @@ public class AdminController {
     @GetMapping()
     public String getAllUsers(Model model) {
         model.addAttribute("users", userService.getAllUsers());
+
         return "users";
     }
-
+//    @GetMapping()
+//    public void pageForAutentificatedUsers(Principal principal) {
+//        System.out.println("вы вошли с правами:"+ principal.getName());
+//    }
 
     @GetMapping("/{id}")
     public String getUserById(@PathVariable("id") int id, Model model) {

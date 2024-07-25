@@ -39,7 +39,7 @@
     </thead>
     <tbody>
     <tr th:each="user:${users}">
-        <td><a th:href="@{/admin/{id}(id=${user.getId()})}" th:text="${user.getId()}">user</a></td>
+        <td><a th:href="@{/user/{name}(name=${user.getName()})}" th:text="${user.getName()}">user</a></td>
         <td><a th:text="${user.getName()}">user</a></td>
         <td><a th:text="${user.getSurname()}">user</a></td>
         <td><a th:text="${user.getAge()}">user</a></td>
@@ -49,6 +49,36 @@
     </tbody>
 </table>
 <br/>
+<a href="/logout"> Выйти из аккаунта</a>
 <hr/>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Пользователь по ID</title>
+</head>
+<body>
+
+<p th:text="${userById.getId()}"></p>
+<p th:text="${userById.getName()}"></p>
+<p th:text="${userById.getSurname()}"></p>
+<p th:text="${userById.getAge()}"></p>
+<p th:text="${userById.getPassword()}"></p>
+
+
+<form th:method="GET" th:action="@{/admin/{id}/edit(id=${userById.getId()})}">
+    <input type="submit" value="Изменить пользователя">
+</form>
+<form th:method="POST" th:action="@{/admin/{id}/delete(id=${userById.getId()})}">
+    <br/>
+    <input type="submit" value="Удалить пользователя!"/>
+    <br/>
+    <br/>
+    <a href="/logout"> Выйти из аккаунта</a>
+</form>
 </body>
 </html>
