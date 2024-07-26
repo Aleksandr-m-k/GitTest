@@ -5,10 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.security.Principal;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -16,12 +20,12 @@ import java.security.Principal;
 public class AdminController {
 
     private final UserService userService;
-
+    private final RoleRepository roleRepository;
     @Autowired
-    public AdminController(UserService userService) {
+    public AdminController(UserService userService, RoleRepository roleRepository) {
         this.userService = userService;
+        this.roleRepository = roleRepository;
     }
-
 
     @GetMapping()
     public String getAllUsers(Model model) {
@@ -29,10 +33,7 @@ public class AdminController {
 
         return "users";
     }
-//    @GetMapping()
-//    public void pageForAutentificatedUsers(Principal principal) {
-//        System.out.println("вы вошли с правами:"+ principal.getName());
-//    }
+
 
     @GetMapping("/{id}")
     public String getUserById(@PathVariable("id") int id, Model model) {
@@ -43,18 +44,23 @@ public class AdminController {
     @GetMapping("/new")
     public String createUser(Model model) {
         model.addAttribute("createUser", new User());
+        model.addAttribute("rolesList", roleRepository.findAll());
         return "new";
     }
-
     @PostMapping()
-    public String addUser(@ModelAttribute("createUser") User user) {
-        userService.saveUser(user);
+    public String addUser(@ModelAttribute("createUser") User user, @RequestParam Set<Integer> roleIds) {
+        Set<Role> roles = user.getRoleIds().stream()
+                .map(roleId -> roleRepository.findById(roleId).orElse(null))
+                .collect(Collectors.toSet());
+            user.setRoles(roles);
+            userService.saveUser(user);
         return "redirect:/admin";
     }
 
     @GetMapping("/{id}/edit")
     public String editUser(Model model, @PathVariable("id") int id) {
         model.addAttribute("user", userService.getUserById(id));
+        model.addAttribute("rolesList", roleRepository.findAll());
         return "edit";
     }
 
@@ -69,4 +75,24 @@ public class AdminController {
         userService.deleteUser(id);
         return "redirect:/admin";
     }
+
+
+
+    @GetMapping("/{id}/editRoles")
+    public String editUserRoles(@PathVariable("id") int id, Model model) {
+        model.addAttribute("user", userService.getUserById(id));
+        model.addAttribute("allRoles", roleRepository.findAll());
+        return "editRoles";
+    }
+
+    @PostMapping("/{id}/updateRoles")
+    public String updateUserRoles(@PathVariable("id") int id, @RequestParam Set<Integer> roleIds) {
+        User user = userService.getUserById(id);
+        Set<Role> roles = roleRepository.findAllById(roleIds).stream().collect(Collectors.toSet());
+        user.setRoles(roles);
+        userService.updateUser(user);
+        return "redirect:/admin";
+    }
+
+
 }

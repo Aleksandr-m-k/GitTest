@@ -30,9 +30,4 @@ public class UserController {
         model.addAttribute("user", user);
         return "user";
     }
-    @GetMapping("/user/{name}")
-    public String getUserById(@PathVariable("name") String name, Model model) {
-        model.addAttribute("userById", userService.getUserById(id));
-        return "user";
-    }
 }

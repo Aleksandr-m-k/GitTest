@@ -5,7 +5,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "Users")
@@ -27,7 +29,9 @@ public class User implements UserDetails{
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-
+    public String getRolesAsString() {
+        return roles.stream().map(Role::getRole).collect(Collectors.joining(", "));
+    }
     public int getId() {
         return id;
     }
@@ -116,7 +120,19 @@ public class User implements UserDetails{
         return true;
     }
 
-//    public void setRoles(Set<Role> roleUser) {
-//    }
+
+
+
+
+    @Transient
+    private Set<Integer> roleIds = new HashSet<>();
+
+    public Set<Integer> getRoleIds() {
+        return roleIds;
+    }
+
+    public void setRoleIds(Set<Integer> roleIds) {
+        this.roleIds = roleIds;
+    }
 }
 

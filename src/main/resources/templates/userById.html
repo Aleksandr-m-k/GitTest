@@ -6,11 +6,13 @@
 </head>
 <body>
 
-<p th:text="${userById.getId()}"></p>
-<p th:text="${userById.getName()}"></p>
-<p th:text="${userById.getSurname()}"></p>
-<p th:text="${userById.getAge()}"></p>
-<p th:text="${userById.getPassword()}"></p>
+<p><strong>ID:</strong> <span th:text="${userById.getId()}"></span></p>
+<p><strong>Имя:</strong> <span th:text="${userById.getName()}"></span></p>
+<p><strong>Фамилия:</strong> <span th:text="${userById.getSurname()}"></span></p>
+<p><strong>Возраст:</strong> <span th:text="${userById.getAge()}"></span></p>
+<p><strong>Пароль:</strong> <span th:text="${userById.getPassword()}"></span></p>
+<p><strong>Роли:</strong> <span th:text="${userById.getRolesAsString()}"></span></p>
+
 
 
 <form th:method="GET" th:action="@{/admin/{id}/edit(id=${userById.getId()})}">

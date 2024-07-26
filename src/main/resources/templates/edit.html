@@ -18,13 +18,17 @@
     <label for="password">Введите пароль: </label>
     <input type="text" th:field="*{password}" id="password">
     <br/>
-
+    <label>Выберите роли пользователя: </label>
+    <br/>
+    <div th:each="role : ${rolesList}">
+        <input type="checkbox" th:field="*{roleIds}" th:value="${role.id}" id="role_${role.id}">
+        <label th:for="${'role_' + role.id}" th:text="${role.role}"></label><br/>
+    </div>
+    <br/>
     <input type="submit" value="Обновить пользователя!">
     <br/>
     <br/>
     <a href="/logout"> Выйти из аккаунта</a>
 </form>
-
 </body>
 </html>
-

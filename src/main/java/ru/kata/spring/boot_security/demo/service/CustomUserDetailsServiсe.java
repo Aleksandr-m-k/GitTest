@@ -27,9 +27,7 @@ public class CustomUserDetailsServiсe implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("пользователь - " + username + "отсутствует!!!");
         }
-//        Set<SimpleGrantedAuthority> authorities = user.getRole().stream()
-//                .map(role -> new SimpleGrantedAuthority(role.getRole()))
-//                .collect(Collectors.toSet()); ////а нужно ли это
+
         return new org.springframework.security.core.userdetails.User(
                 user.getName(),
                 user.getPassword(),

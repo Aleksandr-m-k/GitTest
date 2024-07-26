@@ -25,6 +25,7 @@
         <th>Фамилия</th>
         <th>Возраст</th>
         <th>Пароль</th>
+        <th>Роли</th>
     </tr>
     </thead>
     <tbody>
@@ -34,6 +35,7 @@
         <td><a th:text="${user.getSurname()}">user</a></td>
         <td><a th:text="${user.getAge()}">user</a></td>
         <td><a th:text="${user.getPassword()}">user</a></td>
+        <td><a th:text="${user.getRolesAsString()}">user</a></td>
     </tr>
     </tbody>
 </table>
