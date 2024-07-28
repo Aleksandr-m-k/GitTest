@@ -3,17 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <title>Пользователь по ID</title>
+    <style>
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
 
-<p><strong>ID:</strong> <span th:text="${userById.getId()}"></span></p>
-<p><strong>Имя:</strong> <span th:text="${userById.getName()}"></span></p>
-<p><strong>Фамилия:</strong> <span th:text="${userById.getSurname()}"></span></p>
-<p><strong>Возраст:</strong> <span th:text="${userById.getAge()}"></span></p>
-<p><strong>Пароль:</strong> <span th:text="${userById.getPassword()}"></span></p>
-<p><strong>Роли:</strong> <span th:text="${userById.getRolesAsString()}"></span></p>
-
-
+<table>
+    <tr>
+        <th>ID</th>
+        <td th:text="${userById.getId()}"></td>
+    </tr>
+    <tr>
+        <th>Имя</th>
+        <td th:text="${userById.getName()}"></td>
+    </tr>
+    <tr>
+        <th>Фамилия</th>
+        <td th:text="${userById.getSurname()}"></td>
+    </tr>
+    <tr>
+        <th>Возраст</th>
+        <td th:text="${userById.getAge()}"></td>
+    </tr>
+    <tr>
+        <th>Пароль</th>
+        <td th:text="${userById.getPassword()}"></td>
+    </tr>
+    <tr>
+        <th>Роли</th>
+        <td th:text="${userById.getRolesAsString()}"></td>
+    </tr>
+</table>
 
 <form th:method="GET" th:action="@{/admin/{id}/edit(id=${userById.getId()})}">
     <input type="submit" value="Изменить пользователя">
@@ -23,7 +56,8 @@
     <input type="submit" value="Удалить пользователя!"/>
     <br/>
     <br/>
-    <a href="/logout"> Выйти из аккаунта</a>
+    <a href="/logout">Выйти из аккаунта</a>
 </form>
+
 </body>
 </html>

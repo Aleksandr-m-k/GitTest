@@ -1,55 +1,88 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<head>
-    <title>Spring Security Example</title>
-</head>
-<body>
-<h1>User, welcome spring boot security page!</h1>
-
-
-</body>
-</html><!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>ВСЕ ЛЮДИ</title>
+    <title>Пользователь по ID</title>
     <style>
-        table, th, td {
-            border: 1px solid black;
+        table {
+            width: 50%;
             border-collapse: collapse;
+            margin: 20px 0;
         }
         th, td {
+            border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
         }
     </style>
 </head>
 <body>
-ДАННЫЕ ПОЛЬЗОВАТЕЛЯ
-<p></p>
-<table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Имя</th>
-        <th>Фамилия</th>
-        <th>Возраст</th>
-        <th>Пароль</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="user:${users}">
-        <td><a th:href="@{/user/{name}(name=${user.getName()})}" th:text="${user.getName()}">user</a></td>
-        <td><a th:text="${user.getName()}">user</a></td>
-        <td><a th:text="${user.getSurname()}">user</a></td>
-        <td><a th:text="${user.getAge()}">user</a></td>
-        <td><a th:text="${user.getPassword()}">user</a></td>
-
-    </tr>
-    </tbody>
-</table>
-<br/>
-<a href="/logout"> Выйти из аккаунта</a>
-<hr/>
+<h1>Информация о пользователе</h1>
+<div class="flex-container">
+    <div class="flex-item"><span>ID:</span><span th:text="${user.id}"></span></div>
+    <div class="flex-item"><span>Name:</span><span th:text="${user.name}"></span></div>
+    <div class="flex-item"><span>Surname:</span><span th:text="${user.surname}"></span></div>
+    <div class="flex-item"><span>Age:</span><span th:text="${user.age}"></span></div>
+    <div class="flex-item"><span>Roles:</span><span th:text="${user.rolesAsString}"></span></div>
+    <div class="flex-item" sec:authorize="hasAuthority('USER')">
+        <a href="/admin" class="admin-button">Перейти на страницу администратора</a>
+    </div>
+        <br/>
+        <br/>
+        <a href="/logout">Выйти из аккаунта</a>
+</div>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+<!--<table>-->
+<!--    <tr>-->
+<!--        <th>ID</th>-->
+<!--        <td th:text="${userById.getId()}"></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <th>Имя</th>-->
+<!--        <td th:text="${userById.getName()}"></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <th>Фамилия</th>-->
+<!--        <td th:text="${userById.getSurname()}"></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <th>Возраст</th>-->
+<!--        <td th:text="${userById.getAge()}"></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <th>Пароль</th>-->
+<!--        <td th:text="${userById.getPassword()}"></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <th>Роли</th>-->
+<!--        <td th:text="${userById.getRolesAsString()}"></td>-->
+<!--    </tr>-->
+<!--</table>-->
+
+<!--<form th:method="GET" th:action="@{/admin/{id}/edit(id=${userById.getId()})}">-->
+<!--    <input type="submit" value="Изменить пользователя">-->
+<!--</form>-->
+<!--<form th:method="POST" th:action="@{/admin/{id}/delete(id=${userById.getId()})}">-->
+<!--    <br/>-->
+<!--    <input type="submit" value="Удалить пользователя!"/>-->
+<!--    <br/>-->
+<!--    <br/>-->
+<!--    <a href="/logout">Выйти из аккаунта</a>-->
+<!--</form>-->
+
+<!--</body>-->
+<!--</html>-->

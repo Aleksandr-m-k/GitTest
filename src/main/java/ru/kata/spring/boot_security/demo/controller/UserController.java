@@ -1,6 +1,9 @@
 package ru.kata.spring.boot_security.demo.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -14,7 +17,12 @@ import java.util.List;
 
 @Controller
 public class UserController {
-    UserService userService;
+    private final UserService userService;
+
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping(value = "/")
     public String printWelcome(ModelMap model) {
@@ -25,9 +33,11 @@ public class UserController {
         model.addAttribute("messages", messages);
         return "index";
     }
-    @GetMapping("/user/")
-    public String infoUser(@AuthenticationPrincipal User user, ModelMap model) {
-        model.addAttribute("user", user);
+
+    @GetMapping("/user")
+    public String infoUser(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+        String name = userDetails.getUsername();
+        model.addAttribute("user", userService.findByUsername(name));
         return "user";
     }
 }

@@ -26,9 +26,7 @@ public class Role implements GrantedAuthority {
     }
 
     @ManyToMany(mappedBy = "roles")
-//    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "role_id"),
-//            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    Set<User> users;
+   Set<User> users;
 
 
     public int getId() {

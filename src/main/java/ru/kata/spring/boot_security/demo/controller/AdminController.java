@@ -11,6 +11,8 @@ import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.security.Principal;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -39,6 +41,7 @@ public class AdminController {
     public String getUserById(@PathVariable("id") int id, Model model) {
         model.addAttribute("userById", userService.getUserById(id));
         return "userById";
+
     }
 
     @GetMapping("/new")
@@ -65,9 +68,12 @@ public class AdminController {
     }
 
     @PostMapping("/{id}")
-    public String updateUser(@ModelAttribute("user") User user, @PathVariable("id") int id) {
+    public String updateUser(@ModelAttribute User user, @RequestParam List<Integer> roleIds) {
+        List<Role> roles = roleRepository.findAllById(roleIds);
+        user.setRoles(new HashSet<>(roles));
         userService.updateUser(user);
         return "redirect:/admin";
+
     }
 
     @PostMapping("/{id}/delete")
@@ -75,24 +81,4 @@ public class AdminController {
         userService.deleteUser(id);
         return "redirect:/admin";
     }
-
-
-
-    @GetMapping("/{id}/editRoles")
-    public String editUserRoles(@PathVariable("id") int id, Model model) {
-        model.addAttribute("user", userService.getUserById(id));
-        model.addAttribute("allRoles", roleRepository.findAll());
-        return "editRoles";
-    }
-
-    @PostMapping("/{id}/updateRoles")
-    public String updateUserRoles(@PathVariable("id") int id, @RequestParam Set<Integer> roleIds) {
-        User user = userService.getUserById(id);
-        Set<Role> roles = roleRepository.findAllById(roleIds).stream().collect(Collectors.toSet());
-        user.setRoles(roles);
-        userService.updateUser(user);
-        return "redirect:/admin";
-    }
-
-
 }

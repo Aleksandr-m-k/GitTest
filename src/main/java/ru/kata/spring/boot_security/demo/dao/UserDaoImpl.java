@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 
 
 @Repository
-public class UserDaoImpl implements UserDao{
+public class UserDaoImpl implements UserDao {
 
 
     @PersistenceContext
@@ -35,7 +35,7 @@ public class UserDaoImpl implements UserDao{
     private RoleRepository roleRepository;
 
     @Autowired
-    private  DaoAuthenticationProvider authenticationProvider;
+    private DaoAuthenticationProvider authenticationProvider;
 
     @Autowired
     public UserDaoImpl(UserRepository userRepository, RoleRepository roleRepository) {
@@ -46,9 +46,12 @@ public class UserDaoImpl implements UserDao{
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-//    public UserDaoImpl(DaoAuthenticationProvider authenticationProvider) {
-//        this.authenticationProvider = authenticationProvider;
-//    }
+    @Override
+    public User findByUsername(String username) {
+        return entityManager.createQuery("SELECT u FROM User u WHERE u.name = :username", User.class)
+                .setParameter("username", username)
+                .getSingleResult();
+    }
 
     @Override
     public List<User> getAllUsers() {
@@ -69,10 +72,6 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public void saveUser(User user) {
-//        Set<Role> roles = user.getRoles().stream()
-//                .map(role -> roleRepository.findById(role.getId())
-//                        .orElseThrow(() -> new IllegalArgumentException("Role not found: " + role.getId())))
-//                .collect(Collectors.toSet());
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         entityManager.persist(user);
