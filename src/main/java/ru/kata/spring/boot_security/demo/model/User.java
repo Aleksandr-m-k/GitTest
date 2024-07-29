@@ -18,8 +18,9 @@ public class User implements UserDetails{
     private String name;
     private String surname;
     private int age;
-
     private String password;
+    @Transient
+    private Set<Integer> roleIds = new HashSet<>();
 
     public User() {
     }
@@ -80,11 +81,18 @@ public class User implements UserDetails{
     public Set<Role> getRoles() {
         return roles;
     }
-
     public void setRoles(Set<Role> role) {
         this.roles = role;
     }
 
+    public Set<Integer> getRoleIds() {
+        return roleIds;
+    }
+
+
+    public void setRoleIds(Set<Integer> roleIds) {
+        this.roleIds = roleIds;
+    }
     @Override
     public String toString() {
         return "User{" +
@@ -118,21 +126,6 @@ public class User implements UserDetails{
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-
-
-
-
-    @Transient
-    private Set<Integer> roleIds = new HashSet<>();
-
-    public Set<Integer> getRoleIds() {
-        return roleIds;
-    }
-
-    public void setRoleIds(Set<Integer> roleIds) {
-        this.roleIds = roleIds;
     }
 }
 
