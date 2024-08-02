@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "Users")
-public class User implements UserDetails{
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -24,6 +24,7 @@ public class User implements UserDetails{
 
     public User() {
     }
+
     @ManyToMany(fetch = FetchType.LAZY)
 
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
@@ -33,6 +34,7 @@ public class User implements UserDetails{
     public String getRolesAsString() {
         return roles.stream().map(Role::getRole).collect(Collectors.joining(", "));
     }
+
     public int getId() {
         return id;
     }
@@ -81,6 +83,7 @@ public class User implements UserDetails{
     public Set<Role> getRoles() {
         return roles;
     }
+
     public void setRoles(Set<Role> role) {
         this.roles = role;
     }
@@ -93,6 +96,7 @@ public class User implements UserDetails{
     public void setRoleIds(Set<Integer> roleIds) {
         this.roleIds = roleIds;
     }
+
     @Override
     public String toString() {
         return "User{" +
@@ -103,6 +107,7 @@ public class User implements UserDetails{
                 ", password='" + password + '\'' +
                 '}';
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;

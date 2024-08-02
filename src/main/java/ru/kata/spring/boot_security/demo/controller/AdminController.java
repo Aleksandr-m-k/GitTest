@@ -5,15 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
+import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 
 @Controller
@@ -21,11 +17,12 @@ import java.util.stream.Collectors;
 public class AdminController {
 
     private final UserService userService;
-    private final RoleRepository roleRepository;
+    private final RoleService roleService;
+
     @Autowired
-    public AdminController(UserService userService, RoleRepository roleRepository) {
+    public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
-        this.roleRepository = roleRepository;
+        this.roleService = roleService;
     }
 
     @GetMapping()
@@ -45,31 +42,26 @@ public class AdminController {
     @GetMapping("/new")
     public String createUser(Model model) {
         model.addAttribute("createUser", new User());
-        model.addAttribute("rolesList", roleRepository.findAll());
+        model.addAttribute("rolesList", roleService.findAllRoles());
         return "new";
     }
+
     @PostMapping()
-    public String addUser(@ModelAttribute("createUser") User user, @RequestParam Set<Integer> roleIds) {
-        Set<Role> roles = user.getRoleIds().stream()
-                .map(roleId -> roleRepository.findById(roleId).orElse(null))
-                .collect(Collectors.toSet());
-            user.setRoles(roles);
-            userService.saveUser(user);
+    public String addUser(@ModelAttribute("createUser") User user, @RequestParam List<Integer> roleIds) {
+        userService.addUser(user, roleIds);
         return "redirect:/admin";
     }
 
     @GetMapping("/{id}/edit")
     public String editUser(Model model, @PathVariable("id") int id) {
         model.addAttribute("user", userService.getUserById(id));
-        model.addAttribute("rolesList", roleRepository.findAll());
+        model.addAttribute("rolesList", roleService.findAllRoles());
         return "edit";
     }
 
     @PostMapping("/{id}")
     public String updateUser(@ModelAttribute User user, @RequestParam List<Integer> roleIds) {
-        List<Role> roles = roleRepository.findAllById(roleIds);
-        user.setRoles(new HashSet<>(roles));
-        userService.updateUser(user);
+        userService.updateUser(user, roleIds);
         return "redirect:/admin";
 
     }

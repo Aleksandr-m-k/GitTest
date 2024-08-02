@@ -5,5 +5,7 @@ import ru.kata.spring.boot_security.demo.model.Role;
 import java.util.List;
 
 public interface RoleService {
-    public List<Role> getRolesByIds(List<Integer> ids);
+    List<Role> findAllRolesById(List<Integer> roleIds);
+
+    List<Role> findAllRoles();
 }
