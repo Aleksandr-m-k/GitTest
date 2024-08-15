@@ -39,6 +39,10 @@
         <td th:text="${userById.getAge()}"></td>
     </tr>
     <tr>
+        <th>Email</th>
+        <td th:text="${userById.getEmail()}"></td>
+    </tr>
+    <tr>
         <th>Пароль</th>
         <td th:text="${userById.getPassword()}"></td>
     </tr>
@@ -54,6 +58,7 @@
 <form th:method="POST" th:action="@{/admin/{id}/delete(id=${userById.getId()})}">
     <br/>
     <input type="submit" value="Удалить пользователя!"/>
+
     <br/>
     <br/>
     <a href="/logout">Выйти из аккаунта</a>

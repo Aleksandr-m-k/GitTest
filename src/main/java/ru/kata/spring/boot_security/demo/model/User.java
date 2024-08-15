@@ -18,6 +18,7 @@ public class User implements UserDetails {
     private String name;
     private String surname;
     private int age;
+    private String email;
     private String password;
     @Transient
     private Set<Integer> roleIds = new HashSet<>();
@@ -33,6 +34,14 @@ public class User implements UserDetails {
 
     public String getRolesAsString() {
         return roles.stream().map(Role::getRole).collect(Collectors.joining(", "));
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public int getId() {
@@ -104,7 +113,10 @@ public class User implements UserDetails {
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", age=" + age +
+                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", roleIds=" + roleIds +
+                ", roles=" + roles +
                 '}';
     }
 
