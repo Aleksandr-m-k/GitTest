@@ -5,41 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        /* Обеспечивает серый фон на всю высоту правого контейнера */
+        .custom-container {
+            background-color: #f0f0f0; /* Серый цвет фона */
+            min-height: 100vh; /* Минимальная высота - 100% высоты экрана */
+            padding: 20px; /* Добавляем отступы для более красивого отображения контента */
+        }
+    </style>
 </head>
 <body>
 <nav class="navbar sticky-top navbar-light bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand text-white" th:text="${user.email+' with roles: '}+${user.rolesAsString}">user</a>
-        <p class="text-end"></p>
         <a class="navbar-brand text-light" href="/logout">Logout</a>
     </div>
 </nav>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-2 text-center">
-            <ul class="list-group w-100">
-                <li class="list-group-item active d-block w-100" aria-current="page">User</li>
+            <ul class="list-group">
+                <li class="list-group-item active">User</li>
             </ul>
         </div>
-        <style>
-            .custom-container {
-                background-color: #f0f0f0; /* Серый цвет фона */
-            }
-        </style>
+
         <div class="custom-container col-md-10 text-center">
-            <div class="row">
-                <h1 class="text-start">User information-page</h1>
+            <h1 class="text-start">User information-page</h1>
 
-                <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="usersTable" role="tabpanel"
-                         aria-labelledby="nav-home-tab">
-                        <!-- Содержимое для вкладки "Users table" -->
-                        <div class="container-fluid">
-                            <p class="text-start">About user</p>
-                        </div>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="usersTable" role="tabpanel"
+                     aria-labelledby="nav-home-tab">
 
-                        <table class="table table-striped table-bordered">
-                            <thead>
+                    <!-- Содержимое для вкладки "Users table" -->
+                    <div class="container-fluid border d-flex align-items-center" style="height: 50px;">
+                        <p class="mb-0">About user</p>
+                    </div>
+                    <div class="container-fluid bg-white p-3"
+                         style="background-color: white;">
+
+                        <table class="table table-striped">
+                            <thead style="border-top: 1px solid #dee2e6;">
                             <tr>
                                 <th>ID</th>
                                 <th>First Name</th>
@@ -50,12 +55,14 @@
                             </tr>
                             </thead>
                             <tbody>
+                            <tr>
                             <td><a th:text="${user.id}">user</a></td>
                             <td><a th:text="${user.name}">user</a></td>
                             <td><a th:text="${user.surname}">user</a></td>
                             <td><a th:text="${user.age}">user</a></td>
                             <td><a th:text="${user.email}">user</a></td>
                             <td><a th:text="${user.rolesAsString}">user</a></td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
