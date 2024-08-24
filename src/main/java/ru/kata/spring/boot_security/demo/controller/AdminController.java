@@ -2,6 +2,7 @@ package ru.kata.spring.boot_security.demo.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ public class AdminController {
 
     private final UserService userService;
     private final RoleService roleService;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     public AdminController(UserService userService, RoleService roleService) {
@@ -27,10 +29,11 @@ public class AdminController {
         this.roleService = roleService;
     }
 
-
     @GetMapping()
     public String getAllUsers(Model model) {
         model.addAttribute("users", userService.getAllUsers());
+        model.addAttribute("rolesList", roleService.findAllRoles());
+        model.addAttribute("create", new User());
         return "users";
     }
 
@@ -41,35 +44,18 @@ public class AdminController {
 
     }
 
-    @GetMapping("/new")
-    public String createUser(Model model) {
-        model.addAttribute("createUser", new User());
-        model.addAttribute("rolesList", roleService.findAllRoles());
-        return "new";
-    }
-
-    @PostMapping()
+    @PostMapping("/newUser/")
     public String addUser(@ModelAttribute("createUser") User user, @RequestParam List<Integer> roleIds) {
         userService.addUser(user, roleIds);
         return "redirect:/admin";
     }
 
-    @GetMapping("/{id}/editUser")
+    @GetMapping("/{id}/edit")
     public String editUser(Model model, @PathVariable("id") int id) {
-        System.out.println("editUser method called___________________________");
-
-        List<Role> rolesList = roleService.findAllRoles();
-        System.out.println("Roles (before check): _________________" + rolesList); // Проверяем результат вызова метода
-
-        if (rolesList == null || rolesList.isEmpty()) {
-            System.out.println("Roles list is null or empty!______________________"); // Сообщение в случае проблемы
-        } else {
-            System.out.println("Roles count: _________________________" + rolesList.size());
-        }
-
+        System.out.println(roleService.findAllRoles());
         model.addAttribute("user", userService.getUserById(id));
-        model.addAttribute("rolesList", rolesList);
-        return "editUser";
+        model.addAttribute("rolesList", roleService.findAllRoles());
+        return "edit";
     }
 
 

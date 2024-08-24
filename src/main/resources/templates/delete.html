@@ -19,30 +19,30 @@
                 </div>
                 <div class="modal-body">
 
-                    <label for="ID" class="form-label fw-bold">ID</label>
-                    <input type="text" id="ID" class="form-control mb-3"
+                    <label th:for="'ID' + ${user.getId()}" class="form-label fw-bold">ID</label>
+                    <input type="text" th:id="'ID' + ${user.getId()}" class="form-control mb-3"
                            th:value="${user.getId()}"
                            disabled/>
 
-                    <label for="firstName" class="form-label fw-bold">First name</label>
-                    <input type="text" id="firstName" class="form-control mb-3"
+                    <label th:for="'firstName' + ${user.getId()}" class="form-label fw-bold">First name</label>
+                    <input type="text" th:id="'firstName' + ${user.getId()}"  class="form-control mb-3"
                            th:value="${user.getName()}" disabled/>
 
-                    <label for="lastName" class="form-label fw-bold">Last name</label>
-                    <input type="text" id="lastName" class="form-control mb-3"
+                    <label th:for="'lastName' + ${user.getId()}" class="form-label fw-bold">Last name</label>
+                    <input type="text" th:id="'lastName' + ${user.getId()}" class="form-control mb-3"
                            th:value="${user.getSurname()}" disabled/>
 
-                    <label for="age" class="form-label fw-bold">Age</label>
-                    <input type="text" id="age" class="form-control mb-3"
+                    <label th:for="'age' + ${user.getId()}" class="form-label fw-bold">Age</label>
+                    <input type="text" th:id="'age' + ${user.getId()}" class="form-control mb-3"
                            th:value="${user.getAge()}"
                            disabled/>
 
-                    <label for="email" class="form-label fw-bold">Email</label>
-                    <input type="text" id="email" class="form-control mb-3"
+                    <label th:for="'email' + ${user.getId()}" class="form-label fw-bold">Email</label>
+                    <input type="text" th:id="'email' + ${user.getId()}" class="form-control mb-3"
                            th:value="${user.getEmail()}" disabled/>
 
-                    <label for="role" class="form-label fw-bold">Role</label>
-                    <input type="text" id="role" class="form-control"
+                    <label th:for="'role' + ${user.getId()}" class="form-label fw-bold">Role</label>
+                    <input type="text" th:id="'role' + ${user.getId()}" class="form-control"
                            th:value="${user.rolesAsString}"
                            disabled/>
                 </div>

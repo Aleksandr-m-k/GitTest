@@ -24,5 +24,5 @@ public interface UserService extends UserDetailsService {
 
     void addUser(User user, List<Integer> roleIds);
 
-    UserDetails loadUserByUsername(String username);
+    UserDetails loadUserByUsername(String email);
 }

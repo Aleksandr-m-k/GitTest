@@ -13,7 +13,7 @@ public interface UserDao {
 
     List<Role> findAllRoles();
 
-    User findUserByUsername(String username);
+    User findUserByUsername(String email);
 
     List<User> getAllUsers();
 

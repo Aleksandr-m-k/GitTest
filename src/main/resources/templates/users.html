@@ -13,12 +13,18 @@
             min-height: 100vh; /* Минимальная высота - 100% высоты экрана */
             padding: 20px; /* Добавляем отступы для более красивого отображения контента */
         }
+
+        .list-group-item.active {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
 <nav class="navbar sticky-top navbar-light bg-dark">
     <div class="container-fluid">
-        <!--        <a class="navbar-brand text-white" th:text="${user.email+' with roles: '}">user</a>-->
+
+<!--        <a class="navbar-brand text-white" th:text="${user.email + ' with roles: ' + user.role}">user</a>-->
+
         <p class="text-end"></p>
         <a class="navbar-brand text-light" href="/logout">Logout</a>
     </div>
@@ -26,136 +32,155 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-2 text-center">
-            <ul class="list-group w-100">
-                <li class="list-group-item active d-block w-100" aria-current="page">Admin</li>
-                <li class="list-group-item d-block w-100">User</li>
-            </ul>
-        </div>
-        <div class="custom-container col-md-10 text-center">
-            <h1 class="text-start">Admin panel</h1>
-
-            <nav class="nav nav-tabs" id="nav-tab" role="tablist">
-                <a class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" href="#usersTable" role="tab"
-                   aria-controls="nav-home" aria-selected="true">Users table</a>
-                <a class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" href="#newUser" role="tab"
-                   aria-controls="nav-profile" aria-selected="false">New User</a>
-            </nav>
-
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="usersTable" role="tabpanel" aria-labelledby="nav-home-tab">
-                    <!-- Содержимое для вкладки "Users table" -->
-                    <div class="container-fluid">
-                        <br/>
-                        <p class="text-start">All users</p>
-
-                    </div>
-
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Age</th>
-                            <th>Email</th>
-                            <th>Роли</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
-
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="user : ${users}">
-                            <td th:href="@{/admin/{id}(id=${user.getId()})}" th:text="${user.getId()}">user</td>
-                            <td th:text="${user.getName()}">user</td>
-                            <td th:text="${user.getSurname()}">user</td>
-                            <td th:text="${user.getAge()}">user</td>
-                            <td th:text="${user.getEmail()}">user</td>
-                            <td th:text="${user.getRolesAsString()}">user</td>
-                            <td>
-                                <button type="submit" class="btn btn-info" data-bs-toggle="modal"
-                                        th:data-bs-target="'#editUserModal-' + ${user.getId()}">
-                                    Edit
-                                </button>
-                                <div th:replace="editUser :: modal"></div>
-                            </td>
-                            <td>
-                                <!--                                кнопка удалить-->
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                        th:data-bs-target="'#delUserModal-' + ${user.getId()}">
-                                    Delete
-                                </button>
-                                <!--                               для связи с модальным окном delete-->
-                                <div th:replace="delete :: modal"></div>
-
-                            </td>
-
-                        </tr>
-
-                        </tbody>
-                    </table>
-
-                    <br/>
-                    <hr/>
-
-
-                    <a href="/admin/new">Создать нового пользователя</a>
-                </div>
+            <div class="nav flex-column nav-pills me-3 w-100" id="v-pills-tab" role="tablist"
+                 aria-orientation="vertical">
+                <a class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" href="#v-pills-home" role="tab"
+                   aria-controls="v-pills-home" aria-selected="true">Admin</a>
+                <a class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" href="#v-pills-profile" role="tab"
+                   aria-controls="v-pills-profile" aria-selected="true">User</a>
             </div>
-            <div class="container-fluid">
-                <div class="tab-pane fade" id="newUser" role="tabpanel" aria-labelledby="nav-profile-tab">
+        </div>
 
-                    <!-- Содержимое для вкладки "New User" -->
+        <div class="custom-container col-md-10 text-center">
+            <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
+                     aria-labelledby="v-pills-home-tab">
+                    <h1 class="text-start">Admin panel</h1>
 
-                    <div class="container-fluid border d-flex align-items-center" style="height: 50px;">
-                        <p class="mb-0">Add new user</p>
-                    </div>
+                    <nav class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" href="#usersTable" role="tab"
+                           aria-controls="nav-home" aria-selected="true">Users table</a>
+                        <a class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" href="#newUser" role="tab"
+                           aria-controls="nav-profile" aria-selected="false">New User</a>
+                    </nav>
 
-                    <div class="container-fluid" style="background-color: white;">
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="usersTable" role="tabpanel"
+                             aria-labelledby="nav-home-tab">
+                            <!-- Содержимое для вкладки "Users table" -->
+                            <div class="container-fluid">
+                                <br/>
+                                <p class="text-start">All users</p>
 
-                        <div class="container w-25">
-                            <br>
-                            <label for="firstName" class="form-label fw-bold">First name</label>
-                            <input type="text" id="firstName" class="form-control mb-3" placeholder="First name"
-                                   th:value="*{name}"/>
+                            </div>
 
-                            <label for="lastName" class="form-label fw-bold">Last name</label>
-                            <input type="text" id="lastName" class="form-control mb-3" placeholder="Last name"
-                                   th:value="${surname}"/>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Age</th>
+                                    <th>Email</th>
+                                    <th>Роли</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
 
-                            <label for="age" class="form-label fw-bold">Age</label>
-                            <input type="number" id="age" class="form-control" min="1" max="100" step="1" placeholder="Age"
-                                   th:value="${age}">
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="user : ${users}">
+                                    <td th:href="@{/admin/{id}(id=${user.getId()})}" th:text="${user.getId()}">user</td>
+                                    <td th:text="${user.getName()}">user</td>
+                                    <td th:text="${user.getSurname()}">user</td>
+                                    <td th:text="${user.getAge()}">user</td>
+                                    <td th:text="${user.getEmail()}">user</td>
+                                    <td th:text="${user.getRolesAsString()}">user</td>
+                                    <td>
+                                        <button type="submit" class="btn btn-info" data-bs-toggle="modal"
+                                                th:data-bs-target="'#editUserModal-' + ${user.getId()}">
+                                            Edit
+                                        </button>
+                                        <div th:replace="editUser :: modal"></div>
+                                    </td>
+                                    <td>
+                                        <!--                                кнопка удалить-->
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                                th:data-bs-target="'#delUserModal-' + ${user.getId()}">
+                                            Delete
+                                        </button>
+                                        <!--                               для связи с модальным окном delete-->
+                                        <div th:replace="delete :: modal"></div>
 
+                                    </td>
 
-                            <label for="email" class="form-label fw-bold">Email</label>
-                            <input type="text" id="email" class="form-control mb-3" placeholder="email"
-                                   th:value="${email}"/>
+                                </tr>
 
-                            <label for="password" class="form-label fw-bold">Password</label>
-                            <input type="password" id="password" class="form-control mb-3" placeholder="Password"
-                                   th:value="${password}"/>
-
-                            <label for="role" class="form-label fw-bold">Role</label>
-                            <input type="text" id="role" class="form-control"
-                                   th:value="${roles}"/>
-
+                                </tbody>
+                            </table>
 
                             <br/>
-                            <form th:method="POST" th:action="@{/admin}" th:object="${createUser}">
-                                <button type="submit" class="btn btn-success">Add new user</button>
-                            </form>
-                            <br>
+                            <hr/>
+
+
+                            <a href="/admin/new">Создать нового пользователя</a>
+                        </div>
+                    </div>
+
+                        <div class="tab-pane fade" id="newUser" role="tabpanel" aria-labelledby="nav-profile-tab">
+
+                            <!-- Содержимое для вкладки "New User" -->
+
+                            <div class="container-fluid border d-flex align-items-center" style="height: 50px;">
+                                <p class="mb-0">Add new user</p>
+                            </div>
+                            <div class="container-fluid" style="background-color: white;">
+                                <form th:method="POST" th:action="@{/admin/newUser/}" th:object="${create}">
+                                <div class="container w-25">
+                                    <br>
+                                    <label for="firstName" class="form-label fw-bold">First name</label>
+                                    <input type="text" id="firstName" class="form-control mb-3" placeholder="First name"
+                                           th:field="*{name}" required/>
+
+                                    <label for="lastName" class="form-label fw-bold">Last name</label>
+                                    <input type="text" id="lastName" class="form-control mb-3" placeholder="Last name"
+                                           th:field="*{surname}" required/>
+
+                                    <label for="age" class="form-label fw-bold">Age</label>
+                                    <input type="number" id="age" class="form-control" min="1" max="100" step="1"
+                                           placeholder="Age"
+                                           th:field="*{age}" required>
+
+
+                                    <label for="email" class="form-label fw-bold">Email</label>
+                                    <input type="email" id="email" class="form-control mb-3" placeholder="email"
+                                           th:field="*{email}" required/>
+
+                                    <label for="password" class="form-label fw-bold">Password</label>
+                                    <input type="password" id="password" class="form-control mb-3"
+                                           placeholder="Password"
+                                           th:field="*{password}" required/>
+
+
+                                    <label for="role" class="form-label fw-bold">Role</label>
+                                    <select class="form-select" multiple id="role" name="roleIds" required>
+                                        <option th:each="role : ${rolesList}"
+                                                th:value="${role.id}"
+                                                th:text="${role.role}">
+                                        </option>
+                                    </select>
+
+                                    <br/>
+                                        <button type="submit" class="btn btn-success">Add new user</button>
+                                </div>
+                                </form>
+                                    <br>
+
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+
+
+                    sedrhdjfkjddhtghdkfjdfhg
+                </div>
             </div>
         </div>
-    </div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+                crossorigin="anonymous"></script>
 </body>
 </html>
-
