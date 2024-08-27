@@ -2,6 +2,8 @@ package ru.kata.spring.boot_security.demo.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,10 +32,11 @@ public class AdminController {
     }
 
     @GetMapping()
-    public String getAllUsers(Model model) {
+    public String getAllUsers(Model model, @AuthenticationPrincipal User currentUser) {
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("rolesList", roleService.findAllRoles());
         model.addAttribute("create", new User());
+        model.addAttribute("currentUser", currentUser);
         return "users";
     }
 
@@ -59,7 +62,7 @@ public class AdminController {
     }
 
 
-    @PostMapping("/editUser")
+    @PostMapping("/{id}")
     public String updateUser(@ModelAttribute User user, @RequestParam List<Integer> roleIds) {
         userService.updateUser(user, roleIds);
         return "redirect:/admin";
