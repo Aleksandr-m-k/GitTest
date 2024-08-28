@@ -10,7 +10,7 @@
         .custom-container {
             background-color: #f0f0f0; /* Серый цвет фона */
             min-height: 100vh; /* Минимальная высота - 100% высоты экрана */
-            padding: 20px; /* Добавляем отступы для более красивого отображения контента */
+            padding: 2px; /* Добавляем отступы для более красивого отображения контента */
         }
     </style>
 </head>
@@ -24,13 +24,10 @@
                 <br>
                 <form action="/login" method="post">
                     <h4>Please sign in</h4>
-<!-- после устранения всех замечаний замени тип teкст на емаил-->
-                    <input type="text" name="email" class="form-control mb-1" placeholder="Email address"  required>
+                    <input type="email" name="email" class="form-control mb-1" placeholder="Email address" required>
                     <input type="password" name="password" class="form-control mb-1" placeholder="Password" required>
-
                     <button type="submit" class="btn btn-primary w-100">Sign in</button>
                 </form>
-
             </div>
         </div>
     </div>

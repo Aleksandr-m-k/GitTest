@@ -21,8 +21,7 @@ public class UserController {
 
     @GetMapping()
     public String infoUser(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-        String name = userDetails.getUsername();
-        model.addAttribute("user", userService.findUserByUsername(name));
+        model.addAttribute("user", userService.findUserByUsername(userDetails.getUsername()));
         return "user";
     }
 }

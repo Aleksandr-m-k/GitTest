@@ -8,12 +8,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -32,11 +30,12 @@ public class AdminController {
     }
 
     @GetMapping()
-    public String getAllUsers(Model model, @AuthenticationPrincipal User currentUser) {
+    public String getAllUsers(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        String name = userDetails.getUsername();
+        model.addAttribute("principal", userService.findUserByUsername(userDetails.getUsername()));
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("rolesList", roleService.findAllRoles());
         model.addAttribute("create", new User());
-        model.addAttribute("currentUser", currentUser);
         return "users";
     }
 
