@@ -1,4 +1,15 @@
- console.log('Fetching users...');
+
+console.log("Зарегистрированный пользователь");
+fetch('http://localhost:8080/admin/currentUser')
+    .then(response=>response.json())
+    .then(user=>{
+        console.log(user)
+        document.querySelector('#emailCurrentUser').innerHTML=user.email;
+        document.querySelector('#rolesCurrentUser').innerHTML=user.roles.map(role => role.role.replace('ROLE_', '')).join(', ');
+    })
+
+
+console.log('Fetching users...');
     fetch('http://localhost:8080/admin/')
         .then(response => response.json())
         .then(response => {
@@ -15,8 +26,13 @@
         <td>${user.age}</td>
         <td>${user.email}</td> 
         <td>${roles}</td> 
-        <td><button class="btn btn-info" onclick="openEditUserPopup(${user.id})">Edit</button></td>
-        <td><button class="btn btn-danger" onclick="openDeleteUserPopup(${user.id})">Delete</button></td>
+        <td><button class="btn btn-info" onclick="openEditUserPopup(${user.id})">Edit</button></td>       
+        <td><button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                                    data-bs-target="'#delUserModal-' + ${user.id}"
+                                                    onclick="loadDelUserModal(${user.id})">
+                                                Delete
+                                            </button></td>
+        
         `;
                 tableBody.appendChild(row);
             }
