@@ -8,7 +8,6 @@ fetch('http://localhost:8080/admin/currentUser')
     })
 
 async function getAdminPage() {
-    console.log('Fetching users...');
     fetch('http://localhost:8080/admin/')
         .then(response => response.json())
         .then(response => {
