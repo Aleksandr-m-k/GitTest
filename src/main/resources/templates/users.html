@@ -28,7 +28,7 @@
         <div style="text-align: left;">
         <span class="navbar-header fw-bold" id="emailCurrentUser">
                 </span><span> with roles: </span>
-        <span class="navbar-header fw-bold" id="rolesCurrentUser"></span></div>
+            <span class="navbar-header fw-bold" id="rolesCurrentUser"></span></div>
         <div><a class="navbar-brand text-light" href="/logout">Logout</a></div>
     </div>
 </nav>
@@ -81,7 +81,7 @@
                                         <th>Delete</th>
                                     </tr>
                                     </thead>
-<!--                                    // загрузятся данный со страницы adminPage-->
+                                    <!--                                    // загрузятся данный со страницы adminPage-->
                                     <tbody id="user-table">
                                     </tbody>
                                 </table>
@@ -89,112 +89,158 @@
                             </div>
                         </div>
                     </div>
-
+                    <!--                    Удаление пользователя-->
+                    <div id="delUserModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalBasicLabel">Delete user</h5>
+                                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <label for="delId" class="form-label fw-bold">ID</label>
+                                        <div class="d-flex justify-content-center">
+                                            <input type="text" class="form-control w-50 text-center" id="delId"
+                                                   disabled>
+                                        </div>
+                                        <label for="delName" class="form-label fw-bold">First name</label>
+                                        <div class="d-flex justify-content-center">
+                                            <input type="text" class="form-control w-50 text-center" id="delName"
+                                                   disabled>
+                                        </div>
+                                        <label for="delSurname" class="form-label fw-bold">Last name</label>
+                                        <div class="d-flex justify-content-center">
+                                            <input type="text" class="form-control w-50 text-center" id="delSurname"
+                                                   disabled>
+                                        </div>
+                                        <label for="delAge" class="form-label fw-bold">Age</label>
+                                        <div class="d-flex justify-content-center">
+                                            <input type="number" class="form-control w-50 text-center" id="delAge"
+                                                   disabled>
+                                        </div>
+                                        <label for="delEmail" class="form-label fw-bold">Email</label>
+                                        <div class="d-flex justify-content-center">
+                                            <input type="email" class="form-control w-50 text-center" id="delEmail"
+                                                   disabled>
+                                        </div>
+                                        <label for="delRoles" class="form-label fw-bold">Role</label>
+                                        <div class="d-flex justify-content-center">
+                                            <input type="text" class="form-control w-50 text-center" id="delRoles"
+                                                   disabled>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                            id="closeDelete">
+                                        Close
+                                    </button>
+                                    <button type="button" class="btn btn-danger"
+                                            onclick="deleteModalUser(); getAdminPage()">Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="tab-pane fade" id="newUser" role="tabpanel" aria-labelledby="nav-profile-tab">
 
                         <!-- Содержимое для вкладки "New User" -->
 
                         <div class="container-fluid border d-flex align-items-center" style="height: 50px;">
-                            <p class="mb-0">Add new user</p>
+                            <!--                            привязка к JS странице-->
+                            <p class="mb-0" id="addNewUser">Add new user</p>
                         </div>
-                        <!--                        <div class="container-fluid" style="background-color: white;">-->
-                        <!--                            <form th:method="POST" th:action="@{/admin/newUser/}" th:object="${create}">-->
-                        <!--                                <div class="container w-25">-->
-                        <!--                                    <br>-->
-                        <!--                                    <label for="firstName" class="form-label fw-bold">First name</label>-->
-                        <!--                                    <input type="text" id="firstName" class="form-control mb-3" placeholder="First name"-->
-                        <!--                                           th:field="*{name}" required/>-->
+                        <div class="container-fluid" id="addNewUser" style="background-color: white;">
+                            <form>
+                                <div class="container w-25">
+                                    <br>
+                                    <label for="firstName" class="form-label fw-bold">First name</label>
+                                    <input type="text" id="firstName" class="form-control mb-3" placeholder="First name"
+                                           required/>
 
-                        <!--                                    <label for="lastName" class="form-label fw-bold">Last name</label>-->
-                        <!--                                    <input type="text" id="lastName" class="form-control mb-3" placeholder="Last name"-->
-                        <!--                                           th:field="*{surname}" required/>-->
+                                    <label for="lastName" class="form-label fw-bold">Last name</label>
+                                    <input type="text" id="lastName" class="form-control mb-3" placeholder="Last name"
+                                           required/>
 
-                        <!--                                    <label for="age" class="form-label fw-bold">Age</label>-->
-                        <!--                                    <input type="number" id="age" class="form-control" min="1" max="150" step="1"-->
-                        <!--                                           placeholder="Age"-->
-                        <!--                                           th:field="*{age}" required>-->
-
-
-                        <!--                                    <label for="email" class="form-label fw-bold">Email</label>-->
-                        <!--                                    <input type="email" id="email" class="form-control mb-3" placeholder="email"-->
-                        <!--                                           th:field="*{email}" required/>-->
-
-                        <!--                                    <label for="password" class="form-label fw-bold">Password</label>-->
-                        <!--                                    <input type="password" id="password" class="form-control mb-3"-->
-                        <!--                                           placeholder="Password"-->
-                        <!--                                           th:field="*{password}" required/>-->
+                                    <label for="age" class="form-label fw-bold">Age</label>
+                                    <input type="number" id="age" class="form-control" min="1" max="150" step="1"
+                                           placeholder="Age"
+                                           required>
 
 
-                        <!--                                    <label for="role" class="form-label fw-bold">Role</label>-->
-                        <!--                                    <select class="form-select" multiple id="role" name="roleIds" size="2" required>-->
-                        <!--                                        <option th:each="role : ${rolesList}"-->
-                        <!--                                                th:value="${role.id}"-->
-                        <!--                                                th:text="${role.role}">-->
-                        <!--                                        </option>-->
-                        <!--                                    </select>-->
+                                    <label for="email" class="form-label fw-bold">Email</label>
+                                    <input type="email" id="email" class="form-control mb-3" placeholder="email"
+                                           required/>
 
-                        <br/>
-                        <button type="submit" class="btn btn-success">Add new user</button>
+                                    <label for="password" class="form-label fw-bold">Password</label>
+                                    <input type="password" id="password" class="form-control mb-3"
+                                           placeholder="Password"
+                                           required/>
+
+
+                                    <label for="rolesForNewUser" class="form-label fw-bold">Role</label>
+                                    <select class="form-select" multiple id="rolesForNewUser" name="roleIds" size="2"
+                                            required>
+
+                                    </select>
+
+                                    <br/>
+                                    <button type="submit" class="btn btn-success">Add new user</button>
+                                </div>
+                            </form>
+                            <br>
+
+                        </div>
                     </div>
-                    </form>
-                    <br>
-
                 </div>
             </div>
-        </div>
-    </div>
 
-    <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-        <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="usersTable" role="tabpanel"
-                 aria-labelledby="nav-home-tab">
-                <!-- Содержимое для вкладки "Users table" -->
-                <h1 class="text-start">User information-page</h1>
+            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="usersTable" role="tabpanel"
                          aria-labelledby="nav-home-tab">
+                        <!-- Содержимое для вкладки "Users table" -->
+                        <h1 class="text-start">User information-page</h1>
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="usersTable" role="tabpanel"
+                                 aria-labelledby="nav-home-tab">
 
-                        <div class="container-fluid border d-flex align-items-center"
-                             style="height: 50px;">
-                            <p class="mb-0">About user</p>
-                        </div>
-                        <div class="container-fluid bg-white p-3"
-                             style="background-color: white;">
+                                <div class="container-fluid border d-flex align-items-center"
+                                     style="height: 50px;">
+                                    <p class="mb-0">About user</p>
+                                </div>
+                                <div class="container-fluid bg-white p-3"
+                                     style="background-color: white;">
 
-                            <table class="table table-striped">
-                                <thead style="border-top: 1px solid #dee2e6;">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Age</th>
-                                    <th>Email</th>
-                                    <th>Роли</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <!--                                        <tr>-->
-                                <!--                                            <td><a th:text="${principal.id}">user</a></td>-->
-                                <!--                                            <td><a th:text="${principal.name}">user</a></td>-->
-                                <!--                                            <td><a th:text="${principal.surname}">user</a></td>-->
-                                <!--                                            <td><a th:text="${principal.age}">user</a></td>-->
-                                <!--                                            <td><a th:text="${principal.email}">user</a></td>-->
-                                <!--                                            <td><a th:text="${principal.rolesAsString}">user</a></td>-->
-                                <!--                                        </tr>-->
-                                </tbody>
-                            </table>
+                                    <table class="table table-striped">
+                                        <thead style="border-top: 1px solid #dee2e6;">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>Age</th>
+                                            <th>Email</th>
+                                            <th>Роли</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="user-page">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<!--</div>-->
-<!--</div>-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
-<script src="/adminPage.js"></script>
+        <!--</div>-->
+        <!--</div>-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+                crossorigin="anonymous"></script>
+        <script src="/adminPage.js"></script>
+        <script src="/userPage.js"></script>
+
 </body>
 </html>
