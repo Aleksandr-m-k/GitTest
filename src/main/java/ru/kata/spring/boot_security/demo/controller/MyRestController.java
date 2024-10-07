@@ -38,7 +38,7 @@ public class MyRestController {
     @PostMapping("/newUser")
     public ResponseEntity<Void> addNewUser(@RequestBody User user){
         userService.saveUser(user);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<> (HttpStatus.CREATED);
     }
 
     @GetMapping("/getRoles")
@@ -47,23 +47,27 @@ public class MyRestController {
         return new ResponseEntity<>(roles,HttpStatus.OK);
     }
 
+
     @GetMapping("/")
     public ResponseEntity<List<User>> getUsers() {
         List<User> allUsers = userService.getAllUsers();
         return new ResponseEntity<>(allUsers, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<User> showAllUserById(@PathVariable int id) {
+        User user = userService.getUserById(id);
+        return new ResponseEntity<>(user,HttpStatus.OK);
+    }
 
-    //    @GetMapping("/{id}")
-//    public ResponseEntity<User> showAllUserById(@PathVariable int id) {
-//        return new ResponseEntity<>(userService.getUserById(id));
+//    @PutMapping("/editUser/{id}")
+//    public ResponseEntity<User> editUser (@PathVariable ("id") int id, @RequestBody User user){
+//        User editUser = userService.updateUser(user, );
+//        return new ResponseEntity<>(editUser,HttpStatus.OK);
 //    }
-//    @PostMapping("/addNewUser")
-//    public ResponseEntity<User> addNewUser(@RequestBody User user) {
-//        userService.saveUser(user);
-//        return ResponseEntity<>(HttpStatus.CREATED);
-//    }
-//
+
+
+
     @GetMapping("/user/{id}")
     public ResponseEntity<User> getUserForModalDel(@PathVariable("id") int id) {
         User user = userService.getUserById(id);

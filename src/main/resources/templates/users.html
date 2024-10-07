@@ -149,18 +149,18 @@
 
                         <div class="container-fluid border d-flex align-items-center" style="height: 50px;">
                             <!--                            привязка к JS странице-->
-                            <p class="mb-0" id="addNewUser">Add new user</p>
+                            <p class="mb-0" >Add new user</p>
                         </div>
                         <div class="container-fluid" id="addNewUser" style="background-color: white;">
-                            <form>
+                            <form id="addNewUserInTable">
                                 <div class="container w-25">
                                     <br>
-                                    <label for="firstName" class="form-label fw-bold">First name</label>
-                                    <input type="text" id="firstName" class="form-control mb-3" placeholder="First name"
+                                    <label for="name" class="form-label fw-bold">First name</label>
+                                    <input type="text" id="name" class="form-control mb-3" placeholder="First name"
                                            required/>
 
-                                    <label for="lastName" class="form-label fw-bold">Last name</label>
-                                    <input type="text" id="lastName" class="form-control mb-3" placeholder="Last name"
+                                    <label for="surname" class="form-label fw-bold">Last name</label>
+                                    <input type="text" id="surname" class="form-control mb-3" placeholder="Last name"
                                            required/>
 
                                     <label for="age" class="form-label fw-bold">Age</label>
@@ -175,9 +175,7 @@
 
                                     <label for="password" class="form-label fw-bold">Password</label>
                                     <input type="password" id="password" class="form-control mb-3"
-                                           placeholder="Password"
-                                           required/>
-
+                                           placeholder="Password" required autocomplete="current-password">
 
                                     <label for="rolesForNewUser" class="form-label fw-bold">Role</label>
                                     <select class="form-select" multiple id="rolesForNewUser" name="roleIds" size="2"
