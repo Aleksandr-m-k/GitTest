@@ -24,7 +24,7 @@ async function getAdminPage() {
         <td>${user.age}</td>
         <td>${user.email}</td> 
         <td>${roles}</td> 
-        <td><button class="btn btn-info" onclick="openEditUserPopup(${user.id})">Edit</button></td>       
+        <td><button class="btn btn-info" onclick="loadDataForEditModal(${user.id})">Edit</button></td>       
         
         <td><button type="button" class="btn btn-danger" data-bs-toggle="modal"
         data-bs-target="#delUserModal"  data-bs-backdrop="static" onclick="deleteModalData(${user.id})" >Delete</button></td>
@@ -60,8 +60,8 @@ async function deleteModalData(id) {
         let userData =
             await usersPageDel.json().then(user => {
                 delId.value = `${user.id}`;
-                delName.value = `${user.username}`;
-                delSurname.value = `${user.lastName}`;
+                delName.value = `${user.name}`;
+                delSurname.value = `${user.surname}`;
                 delAge.value = `${user.age}`;
                 delEmail.value = `${user.email}`;
                 delRoles.value = user.roles.map(role => role.role.replace('ROLE_', '')).join(', ');
@@ -181,75 +181,92 @@ async function getRoles() {
 
 getRoles();
 // обновление пользователя
-//
-// const role_ed = document.getElementById('edit-role');
-// const form_ed = document.getElementById('formForEditing');
-// const id_ed = document.getElementById('edit-id');
-// const name_ed = document.getElementById('edit-first_name');
-// const lastName_ed = document.getElementById('edit-last_name')
-// const age_ed = document.getElementById('edit-age')
-// const email_ed = document.getElementById('edit-email');
-// const editModal = document.getElementById("editModal");
-// const closeEditButton = document.getElementById("editClose")
-// const bsEditModal = new bootstrap.Modal(editModal);
-//
-// async function loadDataForEditModal(id) {
-//     const urlDataEd = 'api/admins/users/' + id;
-//     let usersPageEd = await fetch(urlDataEd);
-//     if (usersPageEd.ok) {
-//
-//         await usersPageEd.json().then(user => {
-//             console.log('userData', JSON.stringify(user))
-//             id_ed.value = `${user.id}`;
-//             name_ed.value = `${user.username}`;
-//             lastName_ed.value = `${user.lastName}`;
-//             age_ed.value = `${user.age}`;
-//             email_ed.value = `${user.email}`;
-//
-//             const roleIds = user.roles.map(role => Number(role.id));
-//             for (const option of role_ed.options) {
-//                 if (roleIds.includes(Number(option.value))) {
-//                     option.setAttribute('selected', 'selected');
-//                 } else {
-//                     option.removeAttribute('selected');
-//                 }
-//             }
-//         })
-//         console.log("id_ed: " + id_ed.value + " !!")
-//         bsEditModal.show();
-//     } else {
-//         alert(`Error, ${usersPageEd.status}`)
-//     }
-// }
-//
-// async function editUser() {
-//     let urlEdit = 'api/admins/users/' + id_ed.value;
-//     let listOfRole = [];
-//     console.dir(form_ed)
-//     for (let i = 0; i < form_ed.roles.options.length; i++) {
-//         if (form_ed.roles.options[i].selected) {
-//             let tmp = {};
-//             tmp["id"] = form_ed.roles.options[i].value
-//             listOfRole.push(tmp);
-//         }
-//     }
-//     let method = {
-//         method: 'PATCH',
-//         headers: {
-//             "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify({
-//             username: form_ed.username.value,
-//             lastName: form_ed.lastName.value,
-//             age: form_ed.age.value,
-//             email: form_ed.email.value,
-//             password: form_ed.password.value,
-//             roles: listOfRole
-//         })
-//     }
-//     console.log(urlEdit, method)
-//     await fetch(urlEdit, method).then(() => {
-//         closeEditButton.click();
-//         getAdminPage();
-//     })
-// }
+const role_ed = document.getElementById('editRole');
+const form_ed = document.getElementById('formForEditing');
+const id_ed = document.getElementById('editId');
+const name_ed = document.getElementById('editName');
+const lastName_ed = document.getElementById('editSurname')
+const age_ed = document.getElementById('editAge')
+const email_ed = document.getElementById('editEmail');
+const password_ed = document.getElementById('editPassword')
+const editModal = document.getElementById("editUserModal");
+const closeEditButton = document.getElementById("closeEdit")
+const bsEditModal = new bootstrap.Modal(editModal);
+
+async function loadDataForEditModal(id) {
+    const urlDataEd = '/admin/user/' + id;
+    let usersPageEd = await fetch(urlDataEd);
+    if (usersPageEd.ok) {
+
+        await usersPageEd.json().then(user => {
+            console.log('userData', JSON.stringify(user))
+            id_ed.value = `${user.id}`;
+            name_ed.value = `${user.name}`;
+            lastName_ed.value = `${user.surname}`;
+            age_ed.value = `${user.age}`;
+            email_ed.value = `${user.email}`;
+            password_ed.value = `${user.password}`;
+
+            role_ed.innerHTML = '';
+
+            // Получите роли для пользователя
+            async function main() {
+                const urlRoles = '/admin/getRoles';
+                let rolesPage = await fetch(urlRoles);
+                if (rolesPage.ok) {
+                    await rolesPage.json().then(roles => {
+                        roles.forEach(role => {
+                            const option = document.createElement('option');
+                            option.value = role.id;
+                            option.text = role.role;
+                            role_ed.appendChild(option);
+
+                            // Выберите роль, если она уже назначена пользователю
+                            if (user.roles.find(r => r.id === role.id)) {
+                                option.selected = true;
+                            }
+                        });
+                    });
+                }
+            }
+
+            main();
+            console.log("id_ed: " + id_ed.value + " !!")
+            bsEditModal.show();
+        })
+    } else {
+        alert(`Error, ${usersPageEd.status}`)
+    }
+}
+
+
+async function editUser  () {
+    let urlEdit = '/admin/editUser/' + id_ed.value;
+    let listOfRole = [];
+    for (let i = 0; i < role_ed.options.length; i++) {
+        if (role_ed.options[i].selected) {
+            let tmp = {};
+            tmp["id"] = role_ed.options[i].value;
+            listOfRole.push(tmp);
+        }
+    }
+    let method = {
+        method: 'PATCH',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            name: form_ed.elements['name'].value,
+           surname: form_ed.elements['surname'].value,
+            age: form_ed.elements['age'].value,
+            email: form_ed.elements['email'].value,
+            password: form_ed.elements['password'].value,
+            roles: listOfRole
+        })
+    }
+    console.log(urlEdit,method)
+    await fetch(urlEdit,method).then(() => {
+        closeEditButton.click();
+        getAdminPage();
+    })
+}

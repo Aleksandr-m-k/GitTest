@@ -11,6 +11,7 @@ import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -54,12 +55,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(User user, List<Integer> roleIds) {
-        List<Role> roles = roleService.findAllRolesById(roleIds);
-        user.setRoles(new HashSet<>(roles));
+    public User updateUser(User updateUser, int id) {
+        User user = getUserById(id);
+        user.setName(updateUser.getName());
+        user.setSurname(updateUser.getSurname());
+        user.setAge(updateUser.getAge());
+        user.setEmail(updateUser.getEmail());
+        user.setPassword(updateUser.getPassword());
+        user.setRoles(updateUser.getRoles());
         return userDao.updateUser(user);
     }
-
     @Override
     public void deleteUser(int id) {
         userDao.deleteUser(id);

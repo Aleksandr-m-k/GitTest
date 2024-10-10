@@ -89,6 +89,77 @@
                             </div>
                         </div>
                     </div>
+<!--                    Изменение пользователя-->
+                    <div id="editUserModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalBasicLabel">Edit user</h5>
+                                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <form class="text-center" id="formForEditing">
+
+                                        <label for="editId" class="form-label fw-bold">ID</label>
+                                        <div class="d-flex justify-content-center">
+                                            <input type="text" id="editId"
+                                                   class="form-control w-50 text-center"  name="id" disabled/>
+                                        </div>
+
+                                        <label for="editName" class="form-label fw-bold">First name</label>
+                                        <div class="d-flex justify-content-center">
+                                            <input type="text" id="editName" class="form-control w-50 text-center" name="name"/>
+                                        </div>
+                                        <label for="editSurname" class="form-label fw-bold">Last name</label>
+                                        <div class="d-flex justify-content-center">
+                                            <input type="text" id="editSurname" class="form-control w-50 text-center"  name="surname"/>
+                                        </div>
+                                        <label for="editAge" class="form-label fw-bold">Age</label>
+                                        <div class="d-flex justify-content-center">
+                                            <input type="number" id="editAge" class="form-control w-50 text-center"
+                                                   min="1" max="150" step="1" name="age">
+                                        </div>
+                                        <label for="editEmail" class="form-label fw-bold">Email</label>
+                                        <div class="d-flex justify-content-center">
+                                            <input type="email" id="editEmail" class="form-control w-50 text-center"  name="email"/>
+                                        </div>
+                                        <label for="editPassword" class="form-label fw-bold">Password</label>
+                                        <div class="d-flex justify-content-center">
+                                            <input type="password" id="editPassword" class="form-control w-50 text-center"  name="password"/>
+                                        </div>
+
+                                        <label for="editRole" class="form-label fw-bold">Role</label>
+                                        <div class="d-flex justify-content-center">
+                                            <select class="form-select w-50" multiple id="editRole" size="2" required>
+                                          </select>
+                                    </div>
+                                        <br>
+
+                                        <div class="modal-footer">
+
+                                            <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal" id="closeEdit">Close
+                                            </button>
+                                            <button type="button"  class="btn btn-primary" onclick="editUser(); getAdminPage()">Edit
+                                            </button>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
                     <!--                    Удаление пользователя-->
                     <div id="delUserModal" class="modal fade">
                         <div class="modal-dialog">
@@ -139,6 +210,7 @@
                                     <button type="button" class="btn btn-danger"
                                             onclick="deleteModalUser(); getAdminPage()">Delete
                                     </button>
+
                                 </div>
                             </div>
                         </div>

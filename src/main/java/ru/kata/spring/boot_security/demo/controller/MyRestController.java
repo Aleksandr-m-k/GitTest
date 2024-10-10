@@ -12,6 +12,7 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 
@@ -60,13 +61,13 @@ public class MyRestController {
         return new ResponseEntity<>(user,HttpStatus.OK);
     }
 
-//    @PutMapping("/editUser/{id}")
-//    public ResponseEntity<User> editUser (@PathVariable ("id") int id, @RequestBody User user){
-//        User editUser = userService.updateUser(user, );
-//        return new ResponseEntity<>(editUser,HttpStatus.OK);
-//    }
+ @PatchMapping("/editUser/{id}")
+ public ResponseEntity<HttpStatus> updateUser(@RequestBody User user,
+                                              @PathVariable("id") int id) {
+     userService.updateUser(user, id);
+     return new ResponseEntity<>(HttpStatus.OK);
 
-
+ }
 
     @GetMapping("/user/{id}")
     public ResponseEntity<User> getUserForModalDel(@PathVariable("id") int id) {
