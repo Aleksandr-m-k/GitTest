@@ -21,6 +21,7 @@ public interface UserService extends UserDetailsService {
     void saveUser(User user);
 
     public User updateUser(User updateUser, int id);
+
     void deleteUser(int id);
 
     void addUser(User user, List<Integer> roleIds);

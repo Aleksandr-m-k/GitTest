@@ -17,7 +17,7 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/api/admin")
 public class MyRestController {
     private final UserService userService;
     private final RoleService roleService;
@@ -37,15 +37,15 @@ public class MyRestController {
     }
 
     @PostMapping("/newUser")
-    public ResponseEntity<Void> addNewUser(@RequestBody User user){
+    public ResponseEntity<Void> addNewUser(@RequestBody User user) {
         userService.saveUser(user);
-        return new ResponseEntity<> (HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/getRoles")
-    public ResponseEntity<List<Role>> getRoles(){
+    public ResponseEntity<List<Role>> getRoles() {
         List<Role> roles = roleService.findAllRoles();
-        return new ResponseEntity<>(roles,HttpStatus.OK);
+        return new ResponseEntity<>(roles, HttpStatus.OK);
     }
 
 
@@ -58,16 +58,16 @@ public class MyRestController {
     @GetMapping("/{id}")
     public ResponseEntity<User> showAllUserById(@PathVariable int id) {
         User user = userService.getUserById(id);
-        return new ResponseEntity<>(user,HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
- @PatchMapping("/editUser/{id}")
- public ResponseEntity<HttpStatus> updateUser(@RequestBody User user,
-                                              @PathVariable("id") int id) {
-     userService.updateUser(user, id);
-     return new ResponseEntity<>(HttpStatus.OK);
+    @PatchMapping("/editUser/{id}")
+    public ResponseEntity<HttpStatus> updateUser(@RequestBody User user,
+                                                 @PathVariable("id") int id) {
+        userService.updateUser(user, id);
+        return new ResponseEntity<>(HttpStatus.OK);
 
- }
+    }
 
     @GetMapping("/user/{id}")
     public ResponseEntity<User> getUserForModalDel(@PathVariable("id") int id) {

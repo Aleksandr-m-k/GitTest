@@ -14,7 +14,7 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
     private final UserService userService;
 
@@ -24,8 +24,8 @@ public class UserController {
     }
 
     @GetMapping("/")
-    public ResponseEntity <User> infoUser(@AuthenticationPrincipal UserDetails userDetails) {
-       User user=  userService.findUserByUsername(userDetails.getUsername());
+    public ResponseEntity<User> infoUser(@AuthenticationPrincipal UserDetails userDetails) {
+        User user = userService.findUserByUsername(userDetails.getUsername());
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 

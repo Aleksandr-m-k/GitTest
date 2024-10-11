@@ -1,5 +1,5 @@
 async function getUserPage() {
-    await fetch('http://localhost:8080/user/')
+    await fetch('/api/user/')
         .then(response => response.json())
         .then(response => {
                 let user = response;

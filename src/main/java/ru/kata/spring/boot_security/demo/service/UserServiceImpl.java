@@ -65,6 +65,7 @@ public class UserServiceImpl implements UserService {
         user.setRoles(updateUser.getRoles());
         return userDao.updateUser(user);
     }
+
     @Override
     public void deleteUser(int id) {
         userDao.deleteUser(id);

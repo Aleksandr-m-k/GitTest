@@ -1,5 +1,5 @@
 console.log("Зарегистрированный пользователь");
-fetch('http://localhost:8080/admin/currentUser')
+fetch('/api/admin/currentUser')
     .then(response => response.json())
     .then(user => {
         console.log(user)
@@ -8,7 +8,7 @@ fetch('http://localhost:8080/admin/currentUser')
     })
 
 async function getAdminPage() {
-    fetch('http://localhost:8080/admin/')
+    fetch('/api/admin/')
         .then(response => response.json())
         .then(response => {
             const tableBody = document.querySelector('#user-table');
@@ -24,12 +24,10 @@ async function getAdminPage() {
         <td>${user.age}</td>
         <td>${user.email}</td> 
         <td>${roles}</td> 
-        <td><button class="btn btn-info" onclick="loadDataForEditModal(${user.id})">Edit</button></td>       
+        <td><button class="btn btn-info" onclick="editModalData(${user.id})">Edit</button></td>       
         
         <td><button type="button" class="btn btn-danger" data-bs-toggle="modal"
-        data-bs-target="#delUserModal"  data-bs-backdrop="static" onclick="deleteModalData(${user.id})" >Delete</button></td>
-
-                           
+        data-bs-target="#delUserModal"  data-bs-backdrop="static" onclick="deleteModalData(${user.id})" >Delete</button></td>           
         `;
                 tableBody.appendChild(row);
             }
@@ -54,7 +52,7 @@ const closeDeleteButton = document.getElementById("closeDelete")
 const bsDeleteModal = new bootstrap.Modal(deleteModal);
 
 async function deleteModalData(id) {
-    const urlForDel = 'admin/user/' + id;
+    const urlForDel = '/api/admin/user/' + id;
     let usersPageDel = await fetch(urlForDel);
     if (usersPageDel.ok) {
         let userData =
@@ -74,7 +72,7 @@ async function deleteModalData(id) {
 }
 
 async function deleteModalUser() {
-    let urlDel = 'admin/user/' + delId.value;
+    let urlDel = '/api/admin/user/' + delId.value;
     let method = {
         method: 'DELETE',
         headers: {
@@ -100,7 +98,7 @@ console.log("Добавление пользователя этап №2");
 async function addNewUser(event) {
     console.log("Добавление пользователя этап №3");
     event.preventDefault();
-    const urlNew = "/admin/newUser";
+    const urlNew = "/api/admin/newUser";
     console.log("Добавление пользователя этап №4");
     let listOfRole = [];
     for (let i = 0; i < rolesSelect.selectedOptions.length; i++) {
@@ -163,7 +161,7 @@ const rolesElement = document.getElementById('rolesForNewUser');
 
 async function getRoles() {
     try {
-        const response = await fetch('/admin/getRoles');
+        const response = await fetch('/api/admin/getRoles');
         const roles = await response.json();
 
         rolesElement.innerHTML = '';
@@ -193,8 +191,8 @@ const editModal = document.getElementById("editUserModal");
 const closeEditButton = document.getElementById("closeEdit")
 const bsEditModal = new bootstrap.Modal(editModal);
 
-async function loadDataForEditModal(id) {
-    const urlDataEd = '/admin/user/' + id;
+async function editModalData(id) {
+    const urlDataEd = '/api/admin/user/' + id;
     let usersPageEd = await fetch(urlDataEd);
     if (usersPageEd.ok) {
 
@@ -210,8 +208,8 @@ async function loadDataForEditModal(id) {
             role_ed.innerHTML = '';
 
             // Получите роли для пользователя
-            async function main() {
-                const urlRoles = '/admin/getRoles';
+            async function getRolesForEditUser() {
+                const urlRoles = '/api/admin/getRoles';
                 let rolesPage = await fetch(urlRoles);
                 if (rolesPage.ok) {
                     await rolesPage.json().then(roles => {
@@ -229,9 +227,7 @@ async function loadDataForEditModal(id) {
                     });
                 }
             }
-
-            main();
-            console.log("id_ed: " + id_ed.value + " !!")
+            getRolesForEditUser();
             bsEditModal.show();
         })
     } else {
@@ -240,8 +236,8 @@ async function loadDataForEditModal(id) {
 }
 
 
-async function editUser  () {
-    let urlEdit = '/admin/editUser/' + id_ed.value;
+async function editUser() {
+    let urlEdit = '/api/admin/editUser/' + id_ed.value;
     let listOfRole = [];
     for (let i = 0; i < role_ed.options.length; i++) {
         if (role_ed.options[i].selected) {
@@ -257,15 +253,14 @@ async function editUser  () {
         },
         body: JSON.stringify({
             name: form_ed.elements['name'].value,
-           surname: form_ed.elements['surname'].value,
+            surname: form_ed.elements['surname'].value,
             age: form_ed.elements['age'].value,
             email: form_ed.elements['email'].value,
             password: form_ed.elements['password'].value,
             roles: listOfRole
         })
     }
-    console.log(urlEdit,method)
-    await fetch(urlEdit,method).then(() => {
+    await fetch(urlEdit, method).then(() => {
         closeEditButton.click();
         getAdminPage();
     })
