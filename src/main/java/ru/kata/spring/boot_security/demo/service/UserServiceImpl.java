@@ -17,7 +17,6 @@ import java.util.Set;
 @Transactional
 public class UserServiceImpl implements UserService {
 
-
     private UserDao userDao;
     private RoleService roleService;
 

@@ -3,7 +3,6 @@ package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -12,24 +11,22 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
-import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin")
-public class MyRestController {
+public class AdminController {
     private final UserService userService;
     private final RoleService roleService;
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public MyRestController(UserService userService, RoleService roleService) {
+    public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
     }
 
-    // получение инфы о текущем пользователе
     @GetMapping("/currentUser")
     public ResponseEntity<User> getCurrentUser(Principal principal) {
         User currentUser = userService.findUserByUsername(principal.getName());
@@ -48,7 +45,6 @@ public class MyRestController {
         return new ResponseEntity<>(roles, HttpStatus.OK);
     }
 
-
     @GetMapping("/")
     public ResponseEntity<List<User>> getUsers() {
         List<User> allUsers = userService.getAllUsers();
@@ -66,7 +62,6 @@ public class MyRestController {
                                                  @PathVariable("id") int id) {
         userService.updateUser(user, id);
         return new ResponseEntity<>(HttpStatus.OK);
-
     }
 
     @GetMapping("/user/{id}")
@@ -80,5 +75,4 @@ public class MyRestController {
         userService.deleteUser(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
-
 }

@@ -13,16 +13,13 @@ import java.util.List;
 @Repository
 public class UserDaoImpl implements UserDao {
 
-
     @PersistenceContext
     private EntityManager entityManager;
-
 
     @Override
     public List<Role> findAllRolesById(List<Integer> roleIds) {
         return entityManager.createQuery("select r from Role r where r.id in :roleIds", Role.class)
                 .setParameter("roleIds", roleIds).getResultList();
-
     }
 
     @Override
@@ -39,7 +36,6 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> getAllUsers() {
         return entityManager.createQuery("from User", User.class).getResultList();
-
     }
 
     @Override

@@ -8,7 +8,6 @@ import java.util.List;
 
 public interface UserDao {
 
-
     List<Role> findAllRolesById(List<Integer> roleIds);
 
     List<Role> findAllRoles();
@@ -24,5 +23,4 @@ public interface UserDao {
     User updateUser(User user);
 
     void deleteUser(int id);
-
 }

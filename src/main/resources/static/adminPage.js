@@ -40,7 +40,6 @@ async function getAdminPage() {
 
 getAdminPage();
 
-// Удаление пользователя
 const delId = document.getElementById('delId');
 const delName = document.getElementById('delName');
 const delSurname = document.getElementById("delSurname")
@@ -64,7 +63,6 @@ async function deleteModalData(id) {
                 delEmail.value = `${user.email}`;
                 delRoles.value = user.roles.map(role => role.role.replace('ROLE_', '')).join(', ');
             })
-
         bsDeleteModal.show();
     } else {
         alert(`Error, ${usersPageDel.status}`)
@@ -86,27 +84,22 @@ async function deleteModalUser() {
     })
 }
 
-// Добавление нового пользователя
 console.log("Добавление пользователя");
 const form_new = document.getElementById('addNewUserInTable');
 const create_btn = document.getElementById('closeCreateButton');
 const user_table_tab = document.getElementById('nav-home-tab');
 const rolesSelect = document.querySelector('#rolesForNewUser');
 form_new.addEventListener('submit', addNewUser);
-console.log("Добавление пользователя этап №2");
 
 async function addNewUser(event) {
-    console.log("Добавление пользователя этап №3");
     event.preventDefault();
     const urlNew = "/api/admin/newUser";
-    console.log("Добавление пользователя этап №4");
     let listOfRole = [];
     for (let i = 0; i < rolesSelect.selectedOptions.length; i++) {
         listOfRole.push({
             id: rolesSelect.selectedOptions[i].value
         });
     }
-    console.log("Добавление пользователя этап №5");
     let method = {
         method: 'POST',
         headers: {
@@ -156,7 +149,6 @@ async function addNewUser(event) {
     }
 }
 
-
 const rolesElement = document.getElementById('rolesForNewUser');
 
 async function getRoles() {
@@ -178,7 +170,6 @@ async function getRoles() {
 }
 
 getRoles();
-// обновление пользователя
 const role_ed = document.getElementById('editRole');
 const form_ed = document.getElementById('formForEditing');
 const id_ed = document.getElementById('editId');
@@ -204,10 +195,8 @@ async function editModalData(id) {
             age_ed.value = `${user.age}`;
             email_ed.value = `${user.email}`;
             password_ed.value = `${user.password}`;
-
             role_ed.innerHTML = '';
 
-            // Получите роли для пользователя
             async function getRolesForEditUser() {
                 const urlRoles = '/api/admin/getRoles';
                 let rolesPage = await fetch(urlRoles);
@@ -219,7 +208,6 @@ async function editModalData(id) {
                             option.text = role.role;
                             role_ed.appendChild(option);
 
-                            // Выберите роль, если она уже назначена пользователю
                             if (user.roles.find(r => r.id === role.id)) {
                                 option.selected = true;
                             }
@@ -227,6 +215,7 @@ async function editModalData(id) {
                     });
                 }
             }
+
             getRolesForEditUser();
             bsEditModal.show();
         })
@@ -234,7 +223,6 @@ async function editModalData(id) {
         alert(`Error, ${usersPageEd.status}`)
     }
 }
-
 
 async function editUser() {
     let urlEdit = '/api/admin/editUser/' + id_ed.value;

@@ -11,7 +11,6 @@ import java.util.Set;
 
 public interface UserService extends UserDetailsService {
 
-
     User findUserByUsername(String username);
 
     List<User> getAllUsers();

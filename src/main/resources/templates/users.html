@@ -9,11 +9,10 @@
 
     <title>ВСЕ ЛЮДИ</title>
     <style>
-        /* Обеспечивает серый фон на всю высоту правого контейнера */
         .custom-container {
-            background-color: #f0f0f0; /* Серый цвет фона */
-            min-height: 100vh; /* Минимальная высота - 100% высоты экрана */
-            padding: 20px; /* Добавляем отступы для более красивого отображения контента */
+            background-color: #f0f0f0;
+            min-height: 100vh;
+            padding: 20px;
         }
 
         .list-group-item.active {
@@ -61,7 +60,7 @@
 
                         <div class="tab-pane fade show active" id="usersTable" role="tabpanel"
                              aria-labelledby="nav-home-tab">
-                            <!-- Содержимое для вкладки "Users table" -->
+
                             <div class="container-fluid w-100 border d-flex align-items-center" style="height: 50px;">
                                 <p class="mb-0">All users</p>
                             </div>
@@ -81,7 +80,6 @@
                                         <th>Delete</th>
                                     </tr>
                                     </thead>
-                                    <!--                                    // загрузятся данный со страницы adminPage-->
                                     <tbody id="user-table">
                                     </tbody>
                                 </table>
@@ -89,7 +87,6 @@
                             </div>
                         </div>
                     </div>
-                    <!--                    Изменение пользователя-->
                     <div id="editUserModal" class="modal fade">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -156,8 +153,6 @@
                     </div>
                 </div>
 
-
-                <!--                    Удаление пользователя-->
                 <div id="delUserModal" class="modal fade">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -214,8 +209,6 @@
                 </div>
                 <div class="tab-pane fade" id="newUser" role="tabpanel" aria-labelledby="nav-profile-tab">
 
-                    <!-- Содержимое для вкладки "New User" -->
-
                     <div class="container-fluid border d-flex align-items-center" style="height: 50px;">
                         <p class="mb-0">Add new user</p>
                     </div>
@@ -254,7 +247,6 @@
                             </div>
                         </form>
                         <br>
-
                     </div>
                 </div>
             </div>
@@ -264,7 +256,7 @@
             <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="usersTable" role="tabpanel"
                      aria-labelledby="nav-home-tab">
-                    <!-- Содержимое для вкладки "Users table" -->
+
                     <h1 class="text-start">User information-page</h1>
                     <div class="tab-content" id="nav-tabContent">
                         <div class="tab-pane fade show active" id="usersTable" role="tabpanel"
